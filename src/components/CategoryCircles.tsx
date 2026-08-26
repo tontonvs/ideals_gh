@@ -1,11 +1,11 @@
 import { categoryShortcuts } from "../data/products";
 
-const emojiByCategory: Record<string, string> = {
-  phones: "\u{1F4F1}",
-  laptops: "\u{1F4BB}",
-  cars: "\u{1F697}",
-  accessories: "\u231A",
-  consoles: "\u{1F3AE}",
+const imageByCategory: Record<string, string> = {
+  phones: "/categories/phones.jpg",
+  laptops: "/categories/laptop.jpg",
+  cars: "/categories/car.jpg",
+  accessories: "/categories/watch.jpg",
+  consoles: "/categories/console.jpg",
 };
 
 export default function CategoryCircles() {
@@ -16,9 +16,11 @@ export default function CategoryCircles() {
         {categoryShortcuts.map((shortcut) => (
           <button key={shortcut.id} style={styles.item}>
             <div style={styles.circle}>
-              <span style={styles.emoji}>
-                {emojiByCategory[shortcut.category] ?? "\u{1F6D2}"}
-              </span>
+              <img
+                src={imageByCategory[shortcut.category]}
+                alt={shortcut.label}
+                style={styles.circleImage}
+              />
             </div>
             <span style={styles.label}>{shortcut.label}</span>
           </button>
@@ -59,13 +61,16 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: "50%",
     background: "var(--color-card)",
     border: "1px solid #E7E1D3",
+    overflow: "hidden",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     boxShadow: "0 2px 6px rgba(14,42,61,0.08)",
   },
-  emoji: {
-    fontSize: "1.66rem",
+  circleImage: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
   },
   label: {
     fontSize: "0.7rem",
