@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TopNav from "./components/TopNav";
 import BottomNav from "./components/BottomNav";
 import Home from "./pages/Home";
+import Shop from "./pages/Shop";
+import Orders from "./pages/Orders";
 import PlaceholderPage from "./pages/PlaceholderPage";
 
 export default function App() {
@@ -12,14 +14,8 @@ export default function App() {
         <div className="page-content">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route
-              path="/shop"
-              element={<PlaceholderPage title="Shop" />}
-            />
-            <Route
-              path="/orders"
-              element={<PlaceholderPage title="My Orders" />}
-            />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/orders" element={<Orders />} />
             <Route
               path="/about"
               element={<PlaceholderPage title="About Us" />}
