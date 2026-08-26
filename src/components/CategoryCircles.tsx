@@ -41,8 +41,8 @@ const styles: Record<string, React.CSSProperties> = {
   },
   row: {
     display: "flex",
-    justifyContent: "space-between",
-    gap: 8,
+    justifyContent: "flex-start",
+    gap: 5,
   },
   item: {
     display: "flex",
@@ -51,11 +51,11 @@ const styles: Record<string, React.CSSProperties> = {
     gap: 6,
     background: "none",
     border: "none",
-    flex: 1,
+    flex: "0 0 auto",
   },
   circle: {
-    width: 54,
-    height: 54,
+    width: 69,
+    height: 69,
     borderRadius: "50%",
     background: "var(--color-card)",
     border: "1px solid #E7E1D3",
@@ -65,7 +65,7 @@ const styles: Record<string, React.CSSProperties> = {
     boxShadow: "0 2px 6px rgba(14,42,61,0.08)",
   },
   emoji: {
-    fontSize: "1.3rem",
+    fontSize: "1.66rem",
   },
   label: {
     fontSize: "0.7rem",

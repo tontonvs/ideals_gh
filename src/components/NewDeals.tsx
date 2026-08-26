@@ -26,7 +26,7 @@ function ArrowIcon() {
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
       <path
         d="M5 12h14M13 6l6 6-6 6"
-        stroke="white"
+        stroke="#10202B"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -56,9 +56,9 @@ const styles: Record<string, React.CSSProperties> = {
     display: "flex",
     alignItems: "center",
     gap: 6,
-    background: "var(--color-navy)",
-    color: "white",
-    border: "none",
+    background: "#FFFFFF",
+    color: "#10202B",
+    border: "1px solid #E7E1D3",
     borderRadius: "var(--radius-sm)",
     padding: "8px 14px",
     fontSize: "0.78rem",

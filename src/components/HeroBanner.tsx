@@ -41,21 +41,6 @@ export default function HeroBanner() {
           <p style={styles.subtitle}>{slide.subtitle}</p>
         </div>
       ))}
-
-      <div style={styles.dots}>
-        {slides.map((slide, index) => (
-          <span
-            key={slide.title}
-            style={{
-              ...styles.dot,
-              background:
-                index === activeIndex
-                  ? "var(--color-navy)"
-                  : "rgba(14,42,61,0.25)",
-            }}
-          />
-        ))}
-      </div>
     </section>
   );
 }
@@ -89,18 +74,5 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: "0.78rem",
     color: "#1C3A4D",
     lineHeight: 1.35,
-  },
-  dots: {
-    position: "absolute",
-    bottom: 8,
-    right: 16,
-    display: "flex",
-    gap: 5,
-  },
-  dot: {
-    width: 6,
-    height: 6,
-    borderRadius: "50%",
-    transition: "background 0.3s",
   },
 };

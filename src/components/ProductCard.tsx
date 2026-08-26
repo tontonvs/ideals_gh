@@ -23,17 +23,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         ) : (
           <div style={styles.imagePlaceholder}>Image coming soon</div>
         )}
-        <span
-          style={{
-            ...styles.conditionTag,
-            color:
-              product.condition === "Brand New"
-                ? "var(--color-accent-green)"
-                : "#B8860B",
-          }}
-        >
-          {product.condition}
-        </span>
+        <span style={styles.conditionTag}>{product.condition}</span>
       </div>
 
       <div style={styles.body}>
@@ -59,8 +49,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 const styles: Record<string, React.CSSProperties> = {
   card: {
     width: "100%",
-    // ~2.7cm x 4.8cm scaled up for legibility, ratio preserved
-    aspectRatio: "2.7 / 4.8",
+    aspectRatio: "2.7 / 3.9",
     background: "var(--color-card)",
     borderRadius: "var(--radius-sm)",
     border: "none",
@@ -71,7 +60,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   imageWrap: {
     position: "relative",
-    flex: "0 0 58%",
+    flex: "0 0 56%",
     background: "#F1EEE6",
     display: "flex",
     alignItems: "center",
@@ -83,32 +72,34 @@ const styles: Record<string, React.CSSProperties> = {
     objectFit: "cover",
   },
   imagePlaceholder: {
-    fontSize: "0.68rem",
+    fontSize: "0.64rem",
     color: "#A9A297",
   },
   conditionTag: {
     position: "absolute",
-    top: 8,
-    left: 8,
-    fontSize: "0.62rem",
+    top: 6,
+    left: 6,
+    fontSize: "0.58rem",
     fontWeight: 700,
+    color: "#10202B",
     background: "rgba(255,255,255,0.92)",
-    padding: "2px 7px",
+    padding: "2px 6px",
     borderRadius: "var(--radius-sm)",
   },
   body: {
-    padding: "10px 10px 12px",
+    padding: "6px 7px 7px",
     display: "flex",
     flexDirection: "column",
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
+    gap: 2,
   },
   name: {
     margin: 0,
-    fontSize: "0.78rem",
+    fontSize: "0.72rem",
     fontWeight: 600,
-    color: "var(--color-text-dark)",
-    lineHeight: 1.3,
+    color: "#10202B",
+    lineHeight: 1.25,
     display: "-webkit-box",
     WebkitLineClamp: 2,
     WebkitBoxOrient: "vertical",
@@ -117,24 +108,26 @@ const styles: Record<string, React.CSSProperties> = {
   priceRow: {
     display: "flex",
     alignItems: "baseline",
-    gap: 6,
-    marginTop: 6,
+    gap: 5,
+    marginTop: 3,
     flexWrap: "wrap",
   },
   price: {
     fontFamily: "var(--font-display)",
     fontWeight: 700,
-    fontSize: "0.85rem",
-    color: "var(--color-accent-green)",
+    fontSize: "0.8rem",
+    color: "#10202B",
   },
   originalPrice: {
-    fontSize: "0.68rem",
-    color: "var(--color-text-muted)",
+    fontSize: "0.64rem",
+    fontWeight: 300,
+    color: "#10202B",
     textDecoration: "line-through",
   },
   stockLine: {
-    margin: "6px 0 0",
-    fontSize: "0.68rem",
-    color: "var(--color-text-muted)",
+    margin: "2px 0 0",
+    fontSize: "0.64rem",
+    fontWeight: 300,
+    color: "#10202B",
   },
 };
