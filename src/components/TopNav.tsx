@@ -1,17 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 interface TopNavProps {
-  cartCount?: number;
   notificationCount?: number;
 }
 
-export default function TopNav({
-  cartCount = 5,
-  notificationCount = 3,
-}: TopNavProps) {
+export default function TopNav({ notificationCount = 3 }: TopNavProps) {
   const [profileOpen, setProfileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { itemCount } = useCart();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -40,7 +38,7 @@ export default function TopNav({
 
         <Link to="/cart" aria-label="Cart" style={styles.iconBtn}>
           <CartIcon />
-          {cartCount > 0 && <span style={styles.badge}>{cartCount}</span>}
+          {itemCount > 0 && <span style={styles.badge}>{itemCount}</span>}
         </Link>
 
         <button aria-label="Notifications" style={styles.iconBtn}>

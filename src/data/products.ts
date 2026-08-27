@@ -1,88 +1,179 @@
 import type { Product, CategoryShortcut } from "../types";
 
-// Placeholder pricing and stock numbers only. Real photos, prices and stock
-// counts to be swapped in once the client provides their catalog.
+// Phones, laptops and tablets below are real iDeals GH listings, sourced
+// from their product photos and Instagram captions. Cars, consoles and
+// remaining accessories are still mock placeholders pending real photos.
 export const products: Product[] = [
-  // Phones, laptops, tablets (8)
+  // ----- Phones -----
   {
-    id: "p1",
-    name: "iPhone 13 Pro, 128GB",
+    id: "iphone-17-pro",
+    name: "iPhone 17 Pro, 256GB",
     category: "phones",
     condition: "Preowned",
-    price: 4200,
-    originalPrice: 4800,
-    currency: "GHS",
-    stock: 6,
-  },
-  {
-    id: "p2",
-    name: "Samsung Galaxy A55, 256GB",
-    category: "phones",
-    condition: "Brand New",
-    price: 5600,
-    originalPrice: 6100,
-    currency: "GHS",
-    stock: 11,
-  },
-  {
-    id: "p3",
-    name: "Google Pixel 8, 128GB",
-    category: "phones",
-    condition: "Preowned",
-    price: 3350,
-    currency: "GHS",
-    stock: 4,
-  },
-  {
-    id: "p4",
-    name: "MacBook Air M2, 256GB",
-    category: "laptops",
-    condition: "Brand New",
-    price: 14500,
-    originalPrice: 15800,
+    price: 13500,
     currency: "GHS",
     stock: 3,
+    images: ["/products/iphone-17-pro.jpg"],
+    description:
+      "SIM unlocked. Limited stock, slightly negotiable.",
+    specs: [
+      { label: "Storage", value: "256GB" },
+      { label: "Lock Status", value: "SIM Unlocked" },
+      { label: "Condition", value: "Preowned" },
+    ],
   },
   {
-    id: "p5",
-    name: "HP EliteBook 840 G5",
-    category: "laptops",
+    id: "galaxy-s26-ultra",
+    name: "Samsung Galaxy S26 Ultra, 512GB",
+    category: "phones",
     condition: "Preowned",
-    price: 3100,
-    currency: "GHS",
-    stock: 7,
-  },
-  {
-    id: "p6",
-    name: "Dell XPS 13, 512GB",
-    category: "laptops",
-    condition: "Preowned",
-    price: 6800,
-    originalPrice: 7400,
+    price: 11500,
     currency: "GHS",
     stock: 2,
+    images: ["/products/galaxy-s26-ultra.jpg"],
+    description: "Limited stock, slightly negotiable.",
+    specs: [
+      { label: "Storage", value: "512GB" },
+      { label: "RAM", value: "12GB" },
+      { label: "Condition", value: "Preowned" },
+    ],
   },
   {
-    id: "p7",
-    name: "iPad 9th Gen, 64GB WiFi",
-    category: "tablets",
+    id: "iphone-air",
+    name: "iPhone Air, 256GB",
+    category: "phones",
     condition: "Preowned",
-    price: 2450,
+    price: 10000,
     currency: "GHS",
-    stock: 5,
-  },
-  {
-    id: "p8",
-    name: "Samsung Galaxy Tab A9",
-    category: "tablets",
-    condition: "Brand New",
-    price: 2100,
-    originalPrice: 2350,
-    currency: "GHS",
-    stock: 9,
+    stock: 8,
+    images: ["/products/iphone-air.jpg"],
+    description: "Preowned, excellent condition.",
+    specs: [
+      { label: "Storage", value: "256GB" },
+      { label: "Lock Status", value: "Unlocked, eSIM" },
+      { label: "Condition", value: "Preowned, Excellent" },
+    ],
   },
 
-  // Cars (3) - one time deal, no running stock count
+  // ----- Laptops -----
+  {
+    id: "macbook-pro-14-m4",
+    name: "MacBook Pro 14\", M4 Chip",
+    category: "laptops",
+    condition: "Preowned",
+    price: 12000,
+    currency: "GHS",
+    stock: 1,
+    images: [
+      "/products/macbook-pro-14-m4-1.jpg",
+      "/products/macbook-pro-14-m4-2.jpg",
+      "/products/macbook-pro-14-m4-3.jpg",
+    ],
+    description: "Box and accessories included. Touch ID disabled.",
+    specs: [
+      { label: "Chip", value: "Apple M4" },
+      { label: "RAM", value: "24GB" },
+      { label: "Storage", value: "1TB SSD" },
+      { label: "Cycle Count", value: "25" },
+      { label: "Included", value: "Box + Accessories" },
+      { label: "Touch ID", value: "Disabled" },
+    ],
+  },
+  {
+    id: "hp-elitebook-840-g6",
+    name: "HP EliteBook 840 G6",
+    category: "laptops",
+    condition: "Preowned",
+    price: 4300,
+    currency: "GHS",
+    stock: 6,
+    images: [
+      "/products/hp-elitebook-840-1.jpg",
+      "/products/hp-elitebook-840-2.jpg",
+    ],
+    description: "Fast, sleek and reliable.",
+    specs: [
+      { label: "Processor", value: "Core i5, 8th Gen" },
+      { label: "RAM", value: "8GB" },
+      { label: "Storage", value: "256GB SSD" },
+      { label: "Display", value: "14\" FHD" },
+      { label: "Keyboard", value: "Backlit" },
+    ],
+  },
+  {
+    id: "macbook-air-15-m4",
+    name: "MacBook Air 15\", M4 Chip",
+    category: "laptops",
+    condition: "Preowned",
+    price: 10300,
+    currency: "GHS",
+    stock: 0,
+    soldOut: true,
+    images: ["/products/macbook-air-15-m4.jpg"],
+    description: "Sold out.",
+    specs: [
+      { label: "Chip", value: "Apple M4" },
+      { label: "RAM", value: "16GB" },
+      { label: "Storage", value: "256GB SSD" },
+      { label: "Cycle Count", value: "9" },
+    ],
+  },
+  {
+    id: "macbook-pro-16-2019",
+    name: "MacBook Pro 16\" (2019)",
+    category: "laptops",
+    condition: "Preowned",
+    price: 7800,
+    currency: "GHS",
+    stock: 2,
+    images: ["/products/macbook-pro-16-2019.jpg"],
+    specs: [
+      { label: "Processor", value: "Core i9" },
+      { label: "RAM", value: "32GB" },
+      { label: "Storage", value: "1TB SSD" },
+      { label: "Cycle Count", value: "300" },
+    ],
+  },
+  {
+    id: "macbook-neo-13-citrus",
+    name: "MacBook Neo 13\", Citrus Edition",
+    category: "laptops",
+    condition: "Brand New",
+    price: 10300,
+    currency: "GHS",
+    stock: 1,
+    images: ["/products/macbook-neo-13-citrus.jpg"],
+    specs: [
+      { label: "RAM", value: "8GB" },
+      { label: "Storage", value: "512GB SSD" },
+    ],
+  },
+
+  // ----- Tablets (variant picker: two storage options, two prices) -----
+  {
+    id: "ipad-air-11-m4",
+    name: "iPad Air 11\", M4 (2026)",
+    category: "tablets",
+    condition: "Brand New",
+    price: 8300,
+    currency: "GHS",
+    stock: 5,
+    images: ["/products/ipad-air-11.jpg"],
+    description:
+      "Powerful M4 chip, Liquid Retina display, Apple Pencil Pro support, fast Wi-Fi.",
+    specs: [
+      { label: "Chip", value: "Apple M4" },
+      { label: "Display", value: "Liquid Retina" },
+      { label: "Pencil Support", value: "Apple Pencil Pro" },
+      { label: "Connectivity", value: "Wi-Fi" },
+    ],
+    variants: [
+      { id: "128gb", label: "128GB Wi-Fi", price: 8300 },
+      { id: "256gb", label: "256GB Wi-Fi", price: 9800 },
+    ],
+  },
+
+  // ----- Cars (mock, pending real photos) -----
   {
     id: "c1",
     name: "Toyota Corolla 2017, Full Option",
@@ -91,6 +182,7 @@ export const products: Product[] = [
     price: 92000,
     currency: "GHS",
     stock: null,
+    images: [],
   },
   {
     id: "c2",
@@ -100,6 +192,7 @@ export const products: Product[] = [
     price: 118000,
     currency: "GHS",
     stock: null,
+    images: [],
   },
   {
     id: "c3",
@@ -110,9 +203,10 @@ export const products: Product[] = [
     originalPrice: 172000,
     currency: "GHS",
     stock: null,
+    images: [],
   },
 
-  // Consoles and accessories (remaining 5)
+  // ----- Consoles and accessories (mock, pending real photos) -----
   {
     id: "a1",
     name: "PlayStation 5 Slim, 1TB",
@@ -121,6 +215,7 @@ export const products: Product[] = [
     price: 7200,
     currency: "GHS",
     stock: 4,
+    images: [],
   },
   {
     id: "a2",
@@ -131,6 +226,7 @@ export const products: Product[] = [
     originalPrice: 4300,
     currency: "GHS",
     stock: 3,
+    images: [],
   },
   {
     id: "a3",
@@ -140,6 +236,7 @@ export const products: Product[] = [
     price: 1850,
     currency: "GHS",
     stock: 6,
+    images: [],
   },
   {
     id: "a4",
@@ -150,15 +247,7 @@ export const products: Product[] = [
     originalPrice: 1500,
     currency: "GHS",
     stock: 8,
-  },
-  {
-    id: "a5",
-    name: "Anker 20W Fast Charger",
-    category: "accessories",
-    condition: "Brand New",
-    price: 180,
-    currency: "GHS",
-    stock: 24,
+    images: [],
   },
 ];
 

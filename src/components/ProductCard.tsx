@@ -1,29 +1,38 @@
 import type { Product } from "../types";
+import { useProductOverlay } from "../context/ProductOverlayContext";
 
 interface ProductCardProps {
   product: Product;
 }
 
-function formatPrice(value: number): string {
+export function formatPrice(value: number): string {
   return `GH₵${value.toLocaleString("en-GH")}`;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
   const isCar = product.category === "cars";
+  const { openProduct } = useProductOverlay();
+  const soldOut = Boolean(product.soldOut);
+  const coverImage = product.images[0];
 
   return (
-    <div style={styles.card}>
+    <button
+      style={styles.card}
+      onClick={() => openProduct(product)}
+      aria-label={`View details for ${product.name}`}
+    >
       <div style={styles.imageWrap}>
-        {product.imageUrl ? (
-          <img
-            src={product.imageUrl}
-            alt={product.name}
-            style={styles.image}
-          />
+        {coverImage ? (
+          <img src={coverImage} alt={product.name} style={styles.image} />
         ) : (
           <div style={styles.imagePlaceholder}>Image coming soon</div>
         )}
         <span style={styles.conditionTag}>{product.condition}</span>
+        {soldOut && (
+          <div style={styles.soldOutOverlay}>
+            <span style={styles.soldOutText}>Sold Out</span>
+          </div>
+        )}
       </div>
 
       <div style={styles.body}>
@@ -39,10 +48,14 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <p style={styles.stockLine}>
-          {isCar ? "One time deal" : `${product.stock} in stock`}
+          {soldOut
+            ? "Sold out"
+            : isCar
+              ? "One time deal"
+              : `${product.stock} in stock`}
         </p>
       </div>
-    </div>
+    </button>
   );
 }
 
@@ -57,6 +70,9 @@ const styles: Record<string, React.CSSProperties> = {
     display: "flex",
     flexDirection: "column",
     boxShadow: "0 1px 4px rgba(14,42,61,0.06)",
+    padding: 0,
+    textAlign: "left",
+    cursor: "pointer",
   },
   imageWrap: {
     position: "relative",
@@ -84,6 +100,26 @@ const styles: Record<string, React.CSSProperties> = {
     color: "#10202B",
     background: "rgba(255,255,255,0.92)",
     padding: "2px 6px",
+    borderRadius: "var(--radius-sm)",
+    border: "3px solid #10202B",
+  },
+  soldOutOverlay: {
+    position: "absolute",
+    inset: 0,
+    background: "rgba(16,32,43,0.55)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  soldOutText: {
+    color: "white",
+    fontFamily: "var(--font-display)",
+    fontWeight: 700,
+    fontSize: "0.75rem",
+    letterSpacing: "0.04em",
+    textTransform: "uppercase",
+    border: "2px solid white",
+    padding: "4px 10px",
     borderRadius: "var(--radius-sm)",
   },
   body: {
