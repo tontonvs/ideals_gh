@@ -1,5 +1,6 @@
 import type { Product } from "../types";
 import { useProductOverlay } from "../context/ProductOverlayContext";
+import ConditionBadge from "./ConditionBadge";
 
 interface ProductCardProps {
   product: Product;
@@ -27,7 +28,9 @@ export default function ProductCard({ product }: ProductCardProps) {
         ) : (
           <div style={styles.imagePlaceholder}>Image coming soon</div>
         )}
-        <span style={styles.conditionTag}>{product.condition}</span>
+        <div style={styles.conditionTagPosition}>
+          <ConditionBadge condition={product.condition} category={product.category} />
+        </div>
         {soldOut && (
           <div style={styles.soldOutOverlay}>
             <span style={styles.soldOutText}>Sold Out</span>
@@ -91,17 +94,10 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: "0.64rem",
     color: "#A9A297",
   },
-  conditionTag: {
+  conditionTagPosition: {
     position: "absolute",
     top: 6,
     left: 6,
-    fontSize: "0.58rem",
-    fontWeight: 700,
-    color: "#10202B",
-    background: "rgba(255,255,255,0.92)",
-    padding: "2px 6px",
-    borderRadius: "var(--radius-sm)",
-    border: "3px solid #10202B",
   },
   soldOutOverlay: {
     position: "absolute",

@@ -3,6 +3,7 @@ import { useProductOverlay } from "../context/ProductOverlayContext";
 import { useCart } from "../context/CartContext";
 import { products } from "../data/products";
 import { formatPrice } from "./ProductCard";
+import ConditionBadge from "./ConditionBadge";
 import type { Product } from "../types";
 
 export default function ProductDetailOverlay() {
@@ -71,7 +72,13 @@ function OverlayContent({
             ) : (
               <div style={styles.carouselPlaceholder}>Image coming soon</div>
             )}
-            <span style={styles.conditionTag}>{product.condition}</span>
+            <div style={styles.conditionTagPosition}>
+              <ConditionBadge
+                condition={product.condition}
+                category={product.category}
+                size="lg"
+              />
+            </div>
             {soldOut && (
               <div style={styles.soldOutBadgeWrap}>
                 <span style={styles.soldOutBadge}>Sold Out</span>
@@ -297,17 +304,10 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: "0.85rem",
     color: "#A9A297",
   },
-  conditionTag: {
+  conditionTagPosition: {
     position: "absolute",
     top: 10,
     left: 10,
-    fontSize: "0.7rem",
-    fontWeight: 700,
-    color: "#10202B",
-    background: "rgba(255,255,255,0.92)",
-    padding: "3px 9px",
-    borderRadius: "var(--radius-sm)",
-    border: "3px solid #10202B",
   },
   soldOutBadgeWrap: {
     position: "absolute",

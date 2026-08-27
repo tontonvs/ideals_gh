@@ -173,7 +173,38 @@ export const products: Product[] = [
     ],
   },
 
-  // ----- Cars (mock, pending real photos) -----
+  // ----- Cars -----
+  {
+    id: "range-rover-sport-2018",
+    name: "Range Rover Sport HSE 3.0L V6 (2018)",
+    category: "cars",
+    condition: "Preowned",
+    price: 495000,
+    currency: "GHS",
+    stock: null,
+    images: [
+      "/products/range-rover-1.jpg",
+      "/products/range-rover-2.jpg",
+      "/products/range-rover-3.jpg",
+      "/products/range-rover-4.jpg",
+      "/products/range-rover-5.jpg",
+      "/products/range-rover-6.jpg",
+      "/products/range-rover-7.jpg",
+      "/products/range-rover-8.jpg",
+    ],
+    description: "Slightly negotiable.",
+    specs: [
+      { label: "Engine", value: "3.0L V6" },
+      { label: "Entry", value: "Keyless Entry/Start" },
+      { label: "Seats", value: "Leather, Heated/Ventilated" },
+      { label: "Infotainment", value: "Touch infotainment system" },
+      { label: "Camera", value: "Rear view camera" },
+      { label: "Safety", value: "Blindspot monitors" },
+      { label: "Display", value: "Heads-up display" },
+    ],
+  },
+
+  // ----- Remaining cars (mock, pending real photos) -----
   {
     id: "c1",
     name: "Toyota Corolla 2017, Full Option",
