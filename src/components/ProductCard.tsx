@@ -29,7 +29,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div style={styles.imagePlaceholder}>Image coming soon</div>
         )}
         <div style={styles.conditionTagPosition}>
-          <ConditionBadge condition={product.condition} category={product.category} />
+          <ConditionBadge condition={product.condition} />
         </div>
         {soldOut && (
           <div style={styles.soldOutOverlay}>

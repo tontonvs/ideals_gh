@@ -64,3 +64,49 @@ button {
     background-position: 0% 50%;
   }
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.bottom-nav {
+  height: 64px;
+  background: var(--color-card);
+  border-top: 1px solid #EAE5D9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  z-index: 40;
+}
+
+@media (min-width: 900px) {
+  .app-shell {
+    max-width: 100%;
+    padding-bottom: 110px;
+  }
+
+  .bottom-nav {
+    bottom: 22px;
+    width: auto;
+    max-width: none;
+    height: auto;
+    border-radius: 999px;
+    border: 1px solid #E7E1D3;
+    box-shadow: 0 12px 32px rgba(14, 42, 61, 0.2);
+    padding: 14px 32px;
+    gap: 38px;
+  }
+}

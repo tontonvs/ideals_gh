@@ -214,6 +214,12 @@ export const products: Product[] = [
     currency: "GHS",
     stock: null,
     images: [],
+    specs: [
+      { label: "Year", value: "2017" },
+      { label: "Feature", value: "Push start" },
+      { label: "Feature", value: "Reverse camera" },
+      { label: "Feature", value: "Sunroof" },
+    ],
   },
   {
     id: "c2",
@@ -224,6 +230,12 @@ export const products: Product[] = [
     currency: "GHS",
     stock: null,
     images: [],
+    specs: [
+      { label: "Year", value: "2016" },
+      { label: "Drivetrain", value: "4WD" },
+      { label: "Transmission", value: "Automatic" },
+      { label: "Title", value: "Clean" },
+    ],
   },
   {
     id: "c3",
@@ -235,6 +247,12 @@ export const products: Product[] = [
     currency: "GHS",
     stock: null,
     images: [],
+    specs: [
+      { label: "Year", value: "2024" },
+      { label: "Transmission", value: "Automatic" },
+      { label: "Feature", value: "A/C, Bluetooth" },
+      { label: "Warranty", value: "Manufacturer warranty" },
+    ],
   },
 
   // ----- Consoles and accessories (mock, pending real photos) -----
@@ -247,6 +265,10 @@ export const products: Product[] = [
     currency: "GHS",
     stock: 4,
     images: [],
+    specs: [
+      { label: "Storage", value: "1TB SSD" },
+      { label: "Included", value: "1 DualSense controller" },
+    ],
   },
   {
     id: "a2",
@@ -258,6 +280,10 @@ export const products: Product[] = [
     currency: "GHS",
     stock: 3,
     images: [],
+    specs: [
+      { label: "Storage", value: "512GB SSD" },
+      { label: "Included", value: "1 controller" },
+    ],
   },
   {
     id: "a3",
@@ -268,6 +294,11 @@ export const products: Product[] = [
     currency: "GHS",
     stock: 6,
     images: [],
+    specs: [
+      { label: "Case Size", value: "45mm" },
+      { label: "Connectivity", value: "GPS" },
+      { label: "Battery Health", value: "92%" },
+    ],
   },
   {
     id: "a4",
@@ -279,8 +310,18 @@ export const products: Product[] = [
     currency: "GHS",
     stock: 8,
     images: [],
+    specs: [
+      { label: "Type", value: "Over-ear, Wireless" },
+      { label: "Noise Cancelling", value: "Yes" },
+    ],
   },
 ];
+
+// Items with more photos are more convincing listings, so surface them
+// first while keeping a stable order for ties.
+export function sortByImageCount(list: Product[]): Product[] {
+  return [...list].sort((a, b) => b.images.length - a.images.length);
+}
 
 export const categoryShortcuts: CategoryShortcut[] = [
   { id: "cat-phones", label: "Phones", category: "phones" },

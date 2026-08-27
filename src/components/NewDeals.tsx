@@ -1,7 +1,9 @@
-import { products } from "../data/products";
+import { products, sortByImageCount } from "../data/products";
 import ProductCard from "./ProductCard";
 
 export default function NewDeals() {
+  const sorted = sortByImageCount(products);
+
   return (
     <section style={styles.wrap}>
       <div style={styles.headRow}>
@@ -12,8 +14,8 @@ export default function NewDeals() {
         </button>
       </div>
 
-      <div style={styles.grid}>
-        {products.map((product) => (
+      <div className="product-grid">
+        {sorted.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
@@ -63,10 +65,5 @@ const styles: Record<string, React.CSSProperties> = {
     padding: "8px 14px",
     fontSize: "0.78rem",
     fontWeight: 600,
-  },
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: 12,
   },
 };

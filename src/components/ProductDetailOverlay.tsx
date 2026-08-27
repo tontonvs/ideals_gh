@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useProductOverlay } from "../context/ProductOverlayContext";
 import { useCart } from "../context/CartContext";
 import { products } from "../data/products";
@@ -35,6 +35,28 @@ function OverlayContent({
   );
   const displayPrice = selectedVariant ? selectedVariant.price : product.price;
   const images = product.images.length > 0 ? product.images : [];
+
+  // Reset to the first image whenever a different product is opened.
+  useEffect(() => {
+    setImageIndex(0);
+  }, [product.id]);
+
+  // Auto-advance the carousel when there's more than one photo.
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const interval = setInterval(() => {
+      setImageIndex((prev) => (prev + 1) % images.length);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  function showPrevImage() {
+    setImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  }
+
+  function showNextImage() {
+    setImageIndex((prev) => (prev + 1) % images.length);
+  }
 
   const related = products
     .filter((p) => p.category === product.category && p.id !== product.id)
@@ -73,16 +95,44 @@ function OverlayContent({
               <div style={styles.carouselPlaceholder}>Image coming soon</div>
             )}
             <div style={styles.conditionTagPosition}>
-              <ConditionBadge
-                condition={product.condition}
-                category={product.category}
-                size="lg"
-              />
+              <ConditionBadge condition={product.condition} size="lg" />
             </div>
             {soldOut && (
               <div style={styles.soldOutBadgeWrap}>
                 <span style={styles.soldOutBadge}>Sold Out</span>
               </div>
+            )}
+            {images.length > 1 && (
+              <>
+                <button
+                  aria-label="Previous image"
+                  style={{ ...styles.carouselArrow, left: 8 }}
+                  onClick={showPrevImage}
+                >
+                  <ArrowLeftIcon />
+                </button>
+                <button
+                  aria-label="Next image"
+                  style={{ ...styles.carouselArrow, right: 8 }}
+                  onClick={showNextImage}
+                >
+                  <ArrowRightIcon />
+                </button>
+                <div style={styles.dotsRow}>
+                  {images.map((img, i) => (
+                    <span
+                      key={img}
+                      style={{
+                        ...styles.dot,
+                        background:
+                          i === imageIndex
+                            ? "white"
+                            : "rgba(255,255,255,0.45)",
+                      }}
+                    />
+                  ))}
+                </div>
+              </>
             )}
           </div>
 
@@ -173,7 +223,7 @@ function OverlayContent({
           {related.length > 0 && (
             <div style={styles.section}>
               <h2 style={styles.sectionHeading}>You may also like</h2>
-              <div style={styles.relatedRow}>
+              <div style={styles.relatedRow} className="hide-scrollbar">
                 {related.map((item) => (
                   <button
                     key={item.id}
@@ -227,6 +277,34 @@ function OverlayContent({
         </div>
       </div>
     </div>
+  );
+}
+
+function ArrowLeftIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M15 6l-6 6 6 6"
+        stroke="white"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ArrowRightIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M9 6l6 6-6 6"
+        stroke="white"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
@@ -327,6 +405,33 @@ const styles: Record<string, React.CSSProperties> = {
     border: "2px solid white",
     padding: "6px 16px",
     borderRadius: "var(--radius-sm)",
+  },
+  carouselArrow: {
+    position: "absolute",
+    top: "50%",
+    transform: "translateY(-50%)",
+    width: 32,
+    height: 32,
+    borderRadius: "50%",
+    background: "rgba(16,32,43,0.45)",
+    border: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  dotsRow: {
+    position: "absolute",
+    bottom: 10,
+    left: "50%",
+    transform: "translateX(-50%)",
+    display: "flex",
+    gap: 5,
+  },
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: "50%",
+    transition: "background 0.3s",
   },
   thumbRow: {
     display: "flex",

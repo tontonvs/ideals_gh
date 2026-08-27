@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { products } from "../data/products";
+import { products, sortByImageCount } from "../data/products";
 import ProductCard from "../components/ProductCard";
 import SearchBar from "../components/SearchBar";
 
@@ -7,11 +7,9 @@ const PAGE_SIZE = 8;
 
 export default function Shop() {
   const [page, setPage] = useState(1);
-  const totalPages = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
-  const pageItems = products.slice(
-    (page - 1) * PAGE_SIZE,
-    page * PAGE_SIZE
-  );
+  const sorted = sortByImageCount(products);
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
+  const pageItems = sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   function goTo(targetPage: number) {
     const clamped = Math.min(Math.max(targetPage, 1), totalPages);
@@ -29,7 +27,7 @@ export default function Shop() {
         <span style={styles.count}>{products.length} items</span>
       </div>
 
-      <div style={styles.grid}>
+      <div className="product-grid" style={{ marginBottom: 20 }}>
         {pageItems.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
@@ -94,12 +92,6 @@ const styles: Record<string, React.CSSProperties> = {
   count: {
     fontSize: "0.78rem",
     color: "var(--color-text-muted)",
-  },
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: 12,
-    marginBottom: 20,
   },
   pager: {
     display: "flex",

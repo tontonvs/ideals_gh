@@ -12,7 +12,7 @@ export default function CategoryCircles() {
   return (
     <section style={styles.wrap}>
       <h2 style={styles.heading}>Browse Top Category</h2>
-      <div style={styles.row}>
+      <div style={styles.row} className="hide-scrollbar">
         {categoryShortcuts.map((shortcut) => (
           <button key={shortcut.id} style={styles.item}>
             <div style={styles.circle}>
@@ -32,7 +32,7 @@ export default function CategoryCircles() {
 
 const styles: Record<string, React.CSSProperties> = {
   wrap: {
-    padding: "18px 16px 4px",
+    padding: "18px 0 4px",
   },
   heading: {
     margin: "0 0 14px",
@@ -40,11 +40,16 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 700,
     fontSize: "0.95rem",
     color: "var(--color-text-dark)",
+    padding: "0 16px",
   },
   row: {
     display: "flex",
     justifyContent: "flex-start",
-    gap: 5,
+    gap: 14,
+    overflowX: "auto",
+    WebkitOverflowScrolling: "touch",
+    scrollbarWidth: "none",
+    padding: "0 16px 4px",
   },
   item: {
     display: "flex",
