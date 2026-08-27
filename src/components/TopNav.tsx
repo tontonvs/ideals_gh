@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import SearchOverlay from "./SearchOverlay";
 
 interface TopNavProps {
   notificationCount?: number;
@@ -8,6 +9,7 @@ interface TopNavProps {
 
 export default function TopNav({ notificationCount = 3 }: TopNavProps) {
   const [profileOpen, setProfileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { itemCount } = useCart();
 
@@ -25,67 +27,75 @@ export default function TopNav({ notificationCount = 3 }: TopNavProps) {
   }, []);
 
   return (
-    <header style={styles.nav}>
-      <Link to="/" style={styles.logoWrap}>
-        <span style={styles.recycle}>&#9851;</span>
-        <span style={styles.logoText}>iDeals_gh</span>
-      </Link>
-
-      <div style={styles.icons}>
-        <button aria-label="Search" style={styles.iconBtn}>
-          <SearchIcon />
-        </button>
-
-        <Link to="/cart" aria-label="Cart" style={styles.iconBtn}>
-          <CartIcon />
-          {itemCount > 0 && <span style={styles.badge}>{itemCount}</span>}
+    <>
+      <header style={styles.nav}>
+        <Link to="/" style={styles.logoWrap}>
+          <span style={styles.recycle}>&#9851;</span>
+          <span style={styles.logoText}>iDeals_gh</span>
         </Link>
 
-        <button aria-label="Notifications" style={styles.iconBtn}>
-          <BellIcon />
-          {notificationCount > 0 && (
-            <span style={styles.badge}>{notificationCount}</span>
-          )}
-        </button>
-
-        <div ref={dropdownRef} style={{ position: "relative" }}>
+        <div style={styles.icons}>
           <button
-            aria-label="Profile menu"
+            aria-label="Search"
             style={styles.iconBtn}
-            onClick={() => setProfileOpen((v) => !v)}
+            onClick={() => setSearchOpen(true)}
           >
-            <ProfileIcon />
-            <ChevronIcon open={profileOpen} />
+            <SearchIcon />
           </button>
 
-          {profileOpen && (
-            <div style={styles.dropdown}>
-              <Link
-                to="/profile"
-                style={styles.dropdownItem}
-                onClick={() => setProfileOpen(false)}
-              >
-                Profile
-              </Link>
-              <Link
-                to="/orders"
-                style={styles.dropdownItem}
-                onClick={() => setProfileOpen(false)}
-              >
-                My Orders
-              </Link>
-              <div style={styles.dropdownDivider} />
-              <button
-                style={{ ...styles.dropdownItem, ...styles.logoutItem }}
-                onClick={() => setProfileOpen(false)}
-              >
-                Logout
-              </button>
-            </div>
-          )}
+          <Link to="/cart" aria-label="Cart" style={styles.iconBtn}>
+            <CartIcon />
+            {itemCount > 0 && <span style={styles.badge}>{itemCount}</span>}
+          </Link>
+
+          <button aria-label="Notifications" style={styles.iconBtn}>
+            <BellIcon />
+            {notificationCount > 0 && (
+              <span style={styles.badge}>{notificationCount}</span>
+            )}
+          </button>
+
+          <div ref={dropdownRef} style={{ position: "relative" }}>
+            <button
+              aria-label="Profile menu"
+              style={styles.iconBtn}
+              onClick={() => setProfileOpen((v) => !v)}
+            >
+              <ProfileIcon />
+              <ChevronIcon open={profileOpen} />
+            </button>
+
+            {profileOpen && (
+              <div style={styles.dropdown}>
+                <Link
+                  to="/profile"
+                  style={styles.dropdownItem}
+                  onClick={() => setProfileOpen(false)}
+                >
+                  Profile
+                </Link>
+                <Link
+                  to="/orders"
+                  style={styles.dropdownItem}
+                  onClick={() => setProfileOpen(false)}
+                >
+                  My Orders
+                </Link>
+                <div style={styles.dropdownDivider} />
+                <button
+                  style={{ ...styles.dropdownItem, ...styles.logoutItem }}
+                  onClick={() => setProfileOpen(false)}
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
+    </>
   );
 }
 

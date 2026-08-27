@@ -95,7 +95,9 @@ function OverlayContent({
               <div style={styles.carouselPlaceholder}>Image coming soon</div>
             )}
             <div style={styles.conditionTagPosition}>
-              <ConditionBadge condition={product.condition} size="lg" />
+              {product.condition === "Brand New" && (
+                <ConditionBadge condition={product.condition} size="lg" />
+              )}
             </div>
             {soldOut && (
               <div style={styles.soldOutBadgeWrap}>
