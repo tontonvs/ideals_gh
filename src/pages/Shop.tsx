@@ -1,19 +1,44 @@
-import { useState } from "react";
-import { products, sortByImageCount } from "../data/products";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import {
+  products,
+  sortByImageCount,
+  matchesFilter,
+  SHOP_FILTERS,
+} from "../data/products";
 import ProductCard from "../components/ProductCard";
 import SearchBar from "../components/SearchBar";
 
 const PAGE_SIZE = 8;
 
 export default function Shop() {
+  const [searchParams] = useSearchParams();
+  const initialFilter = searchParams.get("filter") ?? "all";
+  const [activeFilter, setActiveFilter] = useState(initialFilter);
   const [page, setPage] = useState(1);
+
+  // If the query param changes (e.g. tapping a different category circle
+  // while already on Shop), pick that up too.
+  useEffect(() => {
+    setActiveFilter(searchParams.get("filter") ?? "all");
+    setPage(1);
+  }, [searchParams]);
+
   const sorted = sortByImageCount(products);
-  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
-  const pageItems = sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const filtered = sorted.filter((product) =>
+    matchesFilter(product, activeFilter)
+  );
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const pageItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   function goTo(targetPage: number) {
     const clamped = Math.min(Math.max(targetPage, 1), totalPages);
     setPage(clamped);
+  }
+
+  function selectFilter(id: string) {
+    setActiveFilter(id);
+    setPage(1);
   }
 
   return (
@@ -22,9 +47,24 @@ export default function Shop() {
         <SearchBar />
       </div>
 
+      <div style={styles.filterRow} className="hide-scrollbar">
+        {SHOP_FILTERS.map((filter) => (
+          <button
+            key={filter.id}
+            style={{
+              ...styles.filterChip,
+              ...(filter.id === activeFilter ? styles.filterChipActive : {}),
+            }}
+            onClick={() => selectFilter(filter.id)}
+          >
+            {filter.label}
+          </button>
+        ))}
+      </div>
+
       <div style={styles.headRow}>
         <h1 style={styles.heading}>All Products</h1>
-        <span style={styles.count}>{products.length} items</span>
+        <span style={styles.count}>{filtered.length} items</span>
       </div>
 
       <div className="product-grid" style={{ marginBottom: 20 }}>
@@ -74,7 +114,30 @@ const styles: Record<string, React.CSSProperties> = {
     padding: "16px 16px 32px",
   },
   searchWrap: {
-    marginBottom: 16,
+    marginBottom: 14,
+  },
+  filterRow: {
+    display: "flex",
+    gap: 8,
+    overflowX: "auto",
+    marginBottom: 18,
+    paddingBottom: 2,
+  },
+  filterChip: {
+    flex: "0 0 auto",
+    padding: "8px 16px",
+    borderRadius: "999px",
+    border: "1px solid #E7E1D3",
+    background: "var(--color-card)",
+    color: "var(--color-text-dark)",
+    fontSize: "0.8rem",
+    fontWeight: 600,
+    whiteSpace: "nowrap",
+  },
+  filterChipActive: {
+    background: "var(--color-navy)",
+    color: "white",
+    borderColor: "var(--color-navy)",
   },
   headRow: {
     display: "flex",

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { products, sortByImageCount } from "../data/products";
 import ProductCard from "./ProductCard";
 
@@ -8,10 +9,10 @@ export default function NewDeals() {
     <section style={styles.wrap}>
       <div style={styles.headRow}>
         <h2 style={styles.heading}>New Deals</h2>
-        <button style={styles.showAll}>
+        <Link to="/shop" style={styles.showAll}>
           Show all
           <ArrowIcon />
-        </button>
+        </Link>
       </div>
 
       <div className="product-grid">

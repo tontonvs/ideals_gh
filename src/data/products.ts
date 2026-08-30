@@ -413,3 +413,57 @@ export const categoryShortcuts: CategoryShortcut[] = [
   { id: "cat-watches", label: "Watches", category: "accessories" },
   { id: "cat-consoles", label: "Consoles", category: "consoles" },
 ];
+
+// Shop page filter chips. "iphones"/"androids" split the phones category by
+// name since there's no separate brand field. A couple of extra ids
+// (category-only) exist purely as navigation targets from the homepage
+// category circles that don't map onto a visible chip (Phones, Consoles) -
+// they still filter correctly, they just won't show any chip as active.
+export interface FilterOption {
+  id: string;
+  label: string;
+}
+
+export const SHOP_FILTERS: FilterOption[] = [
+  { id: "all", label: "All" },
+  { id: "iphones", label: "iPhones" },
+  { id: "androids", label: "Androids" },
+  { id: "watch", label: "Watch" },
+  { id: "laptop", label: "Laptop" },
+  { id: "car", label: "Car" },
+];
+
+// Maps each homepage category circle to the filter id Shop should open
+// with. Laptops/Cars/Watches line up with a visible chip; Phones/Consoles
+// don't split cleanly into the chip set so they filter by category alone.
+export const CIRCLE_FILTER_MAP: Record<string, string> = {
+  phones: "all-phones",
+  laptops: "laptop",
+  cars: "car",
+  accessories: "watch",
+  consoles: "all-consoles",
+};
+
+export function matchesFilter(product: Product, filterId: string): boolean {
+  const name = product.name.toLowerCase();
+  switch (filterId) {
+    case "all":
+      return true;
+    case "iphones":
+      return product.category === "phones" && name.includes("iphone");
+    case "androids":
+      return product.category === "phones" && !name.includes("iphone");
+    case "watch":
+      return name.includes("watch");
+    case "laptop":
+      return product.category === "laptops";
+    case "car":
+      return product.category === "cars";
+    case "all-phones":
+      return product.category === "phones";
+    case "all-consoles":
+      return product.category === "consoles";
+    default:
+      return true;
+  }
+}

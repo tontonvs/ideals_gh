@@ -1,4 +1,5 @@
-import { categoryShortcuts } from "../data/products";
+import { Link } from "react-router-dom";
+import { categoryShortcuts, CIRCLE_FILTER_MAP } from "../data/products";
 
 const imageByCategory: Record<string, string> = {
   phones: "/categories/phones.jpg",
@@ -14,7 +15,11 @@ export default function CategoryCircles() {
       <h2 style={styles.heading}>Browse Top Category</h2>
       <div style={styles.row} className="hide-scrollbar">
         {categoryShortcuts.map((shortcut) => (
-          <button key={shortcut.id} style={styles.item}>
+          <Link
+            key={shortcut.id}
+            to={`/shop?filter=${CIRCLE_FILTER_MAP[shortcut.category] ?? "all"}`}
+            style={styles.item}
+          >
             <div style={styles.circle}>
               <img
                 src={imageByCategory[shortcut.category]}
@@ -23,7 +28,7 @@ export default function CategoryCircles() {
               />
             </div>
             <span style={styles.label}>{shortcut.label}</span>
-          </button>
+          </Link>
         ))}
       </div>
     </section>
