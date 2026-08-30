@@ -1,4 +1,4 @@
-import type { Product, CategoryShortcut } from "../types";
+import type { Product, CategoryShortcut, ProductCategory } from "../types";
 
 // Phones, laptops and tablets below are real iDeals GH listings, sourced
 // from their product photos and Instagram captions. Cars, consoles and
@@ -382,10 +382,28 @@ export const products: Product[] = [
   },
 ];
 
-// Items with more photos are more convincing listings, so surface them
-// first while keeping a stable order for ties.
+// Category display order: phones and laptops lead, matching the original
+// homepage layout intent.
+const CATEGORY_ORDER: ProductCategory[] = [
+  "phones",
+  "laptops",
+  "tablets",
+  "cars",
+  "consoles",
+  "accessories",
+];
+
+// Within each category, items with more photos are more convincing
+// listings, so surface them first while keeping a stable order for ties.
+// Category grouping always wins over image count, so phones/laptops still
+// lead even though e.g. a car might have more photos than a phone.
 export function sortByImageCount(list: Product[]): Product[] {
-  return [...list].sort((a, b) => b.images.length - a.images.length);
+  return [...list].sort((a, b) => {
+    const categoryDiff =
+      CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category);
+    if (categoryDiff !== 0) return categoryDiff;
+    return b.images.length - a.images.length;
+  });
 }
 
 export const categoryShortcuts: CategoryShortcut[] = [

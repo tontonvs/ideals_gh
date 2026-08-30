@@ -1,19 +1,16 @@
 import { Link, useLocation } from "react-router-dom";
-import { useCart } from "../context/CartContext";
 
 const navItems = [
   { label: "Home", path: "/", icon: HomeIcon },
   { label: "Shop", path: "/shop", icon: ShopIcon },
-  { label: "Cart", path: "/cart", icon: CartIcon },
   { label: "Orders", path: "/orders", icon: OrdersIcon },
-  { label: "About Us", path: "/about", icon: AboutIcon },
+  { label: "Contact", path: "/contact", icon: ContactIcon },
 ];
 
 const STROKE = 2.6;
 
 export default function BottomNav() {
   const location = useLocation();
-  const { itemCount } = useCart();
 
   return (
     <nav className="bottom-nav">
@@ -28,12 +25,7 @@ export default function BottomNav() {
               color: active ? "var(--color-navy)" : "var(--color-text-muted)",
             }}
           >
-            <div style={styles.iconWrap}>
-              <Icon active={active} />
-              {path === "/cart" && itemCount > 0 && (
-                <span style={styles.badge}>{itemCount}</span>
-              )}
-            </div>
+            <Icon active={active} />
             <span style={styles.label}>{label}</span>
           </Link>
         );
@@ -85,18 +77,16 @@ function ShopIcon({ active }: IconProps) {
   );
 }
 
-function CartIcon({ active }: IconProps) {
+function ContactIcon({ active }: IconProps) {
   return (
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
       <path
-        d="M3 3h2l2.4 12.4a2 2 0 002 1.6h7.2a2 2 0 002-1.6L20 7H6"
+        d="M5 4h3l2 5-2.5 1.5a11 11 0 005 5L14 13l5 2v3a2 2 0 01-2 2c-8 0-15-7-15-15a2 2 0 012-2z"
         stroke={iconColor(active)}
         strokeWidth={STROKE}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <circle cx="9" cy="21" r="1.4" fill={iconColor(active)} />
-      <circle cx="17" cy="21" r="1.4" fill={iconColor(active)} />
     </svg>
   );
 }
@@ -135,56 +125,12 @@ function OrdersIcon({ active }: IconProps) {
   );
 }
 
-function AboutIcon({ active }: IconProps) {
-  return (
-    <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
-      <circle
-        cx="12"
-        cy="12"
-        r="8"
-        stroke={iconColor(active)}
-        strokeWidth={STROKE}
-      />
-      <line
-        x1="12"
-        y1="11"
-        x2="12"
-        y2="16"
-        stroke={iconColor(active)}
-        strokeWidth={STROKE}
-        strokeLinecap="round"
-      />
-      <circle cx="12" cy="8" r="1.1" fill={iconColor(active)} />
-    </svg>
-  );
-}
-
 const styles: Record<string, React.CSSProperties> = {
   item: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     gap: 1,
-  },
-  iconWrap: {
-    position: "relative",
-    display: "flex",
-  },
-  badge: {
-    position: "absolute",
-    top: -4,
-    right: -7,
-    background: "var(--color-badge)",
-    color: "white",
-    fontSize: "0.58rem",
-    fontWeight: 700,
-    borderRadius: "999px",
-    minWidth: 14,
-    height: 14,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "0 3px",
   },
   label: {
     fontSize: "0.63rem",

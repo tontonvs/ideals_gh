@@ -5,6 +5,7 @@ import ProductDetailOverlay from "./components/ProductDetailOverlay";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Orders from "./pages/Orders";
+import Contact from "./pages/Contact";
 import PlaceholderPage from "./pages/PlaceholderPage";
 import { CartProvider } from "./context/CartContext";
 import { ProductOverlayProvider } from "./context/ProductOverlayContext";
@@ -21,10 +22,7 @@ export default function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/shop" element={<Shop />} />
                 <Route path="/orders" element={<Orders />} />
-                <Route
-                  path="/about"
-                  element={<PlaceholderPage title="About Us" />}
-                />
+                <Route path="/contact" element={<Contact />} />
                 <Route
                   path="/profile"
                   element={<PlaceholderPage title="Profile" />}

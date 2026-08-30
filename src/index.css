@@ -82,7 +82,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 34px;
+  gap: 40px;
   position: fixed;
   bottom: 0;
   left: 50%;

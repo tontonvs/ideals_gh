@@ -67,7 +67,6 @@ export default function ProductCard({ product }: ProductCardProps) {
 const styles: Record<string, React.CSSProperties> = {
   card: {
     width: "100%",
-    aspectRatio: "2.7 / 3.9",
     background: "var(--color-card)",
     borderRadius: "var(--radius-sm)",
     border: "none",
@@ -81,7 +80,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   imageWrap: {
     position: "relative",
-    flex: "0 0 56%",
+    aspectRatio: "1 / 1",
     background: "#F1EEE6",
     display: "flex",
     alignItems: "center",
@@ -124,8 +123,6 @@ const styles: Record<string, React.CSSProperties> = {
     padding: "6px 7px 7px",
     display: "flex",
     flexDirection: "column",
-    flex: 1,
-    justifyContent: "flex-start",
     gap: 2,
   },
   name: {
