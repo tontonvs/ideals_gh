@@ -105,6 +105,16 @@ button {
   }
 }
 
+@keyframes constructionBounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(-4deg);
+  }
+}
+
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));

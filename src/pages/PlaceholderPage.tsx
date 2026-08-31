@@ -35,7 +35,9 @@ export default function PlaceholderPage({ title }: PlaceholderPageProps) {
 
   return (
     <div style={styles.constructionWrap}>
-      <ConstructionIcon />
+      <div style={styles.iconAnimWrap}>
+        <ConstructionIcon />
+      </div>
       <h1 style={styles.title}>{title}</h1>
       <p style={styles.text}>This page is under construction.</p>
       <p style={styles.subtext}>Check back soon.</p>
@@ -94,6 +96,10 @@ const styles: Record<string, React.CSSProperties> = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+  iconAnimWrap: {
+    display: "inline-block",
+    animation: "constructionBounce 1.8s ease-in-out infinite",
   },
   title: {
     margin: "16px 0 4px",

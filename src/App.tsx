@@ -6,6 +6,13 @@ import ProductDetailOverlay from "./components/ProductDetailOverlay";
 import ScrollToTop from "./components/ScrollToTop";
 import SplashScreen from "./components/SplashScreen";
 import PageLoadWrapper from "./components/PageLoadWrapper";
+import {
+  HomeSkeleton,
+  ShopSkeleton,
+  OrdersSkeleton,
+  ContactSkeleton,
+  CartSkeleton,
+} from "./components/PageSkeletons";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Orders from "./pages/Orders";
@@ -30,7 +37,7 @@ export default function App() {
                 <Route
                   path="/"
                   element={
-                    <PageLoadWrapper>
+                    <PageLoadWrapper skeleton={<HomeSkeleton />}>
                       <Home />
                     </PageLoadWrapper>
                   }
@@ -38,7 +45,7 @@ export default function App() {
                 <Route
                   path="/shop"
                   element={
-                    <PageLoadWrapper>
+                    <PageLoadWrapper skeleton={<ShopSkeleton />}>
                       <Shop />
                     </PageLoadWrapper>
                   }
@@ -46,7 +53,7 @@ export default function App() {
                 <Route
                   path="/orders"
                   element={
-                    <PageLoadWrapper>
+                    <PageLoadWrapper skeleton={<OrdersSkeleton />}>
                       <Orders />
                     </PageLoadWrapper>
                   }
@@ -54,7 +61,7 @@ export default function App() {
                 <Route
                   path="/contact"
                   element={
-                    <PageLoadWrapper>
+                    <PageLoadWrapper skeleton={<ContactSkeleton />}>
                       <Contact />
                     </PageLoadWrapper>
                   }
@@ -62,7 +69,7 @@ export default function App() {
                 <Route
                   path="/cart"
                   element={
-                    <PageLoadWrapper>
+                    <PageLoadWrapper skeleton={<CartSkeleton />}>
                       <Cart />
                     </PageLoadWrapper>
                   }
