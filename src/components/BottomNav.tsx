@@ -15,11 +15,19 @@ export default function BottomNav() {
 
   return (
     <nav className="bottom-nav">
-      {navItems.map(({ path, icon: Icon }) => {
+      {navItems.map(({ label, path, icon: Icon }) => {
         const active = location.pathname === path;
         return (
           <Link key={path} to={path} style={styles.item}>
             <Icon active={active} />
+            <span
+              style={{
+                ...styles.label,
+                color: active ? "var(--color-navy)" : "#8A96A0",
+              }}
+            >
+              {label}
+            </span>
           </Link>
         );
       })}
@@ -121,7 +129,13 @@ function OrdersIcon({ active }: IconProps) {
 const styles: Record<string, React.CSSProperties> = {
   item: {
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    gap: 2,
+  },
+  label: {
+    fontSize: "0.63rem",
+    fontWeight: 600,
   },
 };

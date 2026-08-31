@@ -49,7 +49,7 @@ button {
   display: flex;
   flex-direction: column;
   position: relative;
-  padding-bottom: 64px; /* space for bottom nav */
+  padding-bottom: 66px; /* space for bottom nav */
 }
 
 .page-content {
@@ -112,7 +112,7 @@ button {
 }
 
 .bottom-nav {
-  height: 60px;
+  height: 66px;
   background: var(--color-card);
   border-top: 1px solid #EAE5D9;
   display: flex;

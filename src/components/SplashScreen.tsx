@@ -4,7 +4,7 @@ interface SplashScreenProps {
   onFinish: () => void;
 }
 
-const TOTAL_DURATION_MS = 2200;
+const TOTAL_DURATION_MS = 4000;
 
 export default function SplashScreen({ onFinish }: SplashScreenProps) {
   const [exiting, setExiting] = useState(false);
@@ -51,7 +51,7 @@ const styles: Record<string, React.CSSProperties> = {
     marginLeft: "-20px",
     borderRadius: "50%",
     background: "var(--color-navy)",
-    animation: "splashCircleExpand 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+    animation: "splashCircleExpand 1.3s cubic-bezier(0.4, 0, 0.2, 1) forwards",
   },
   contentWrap: {
     position: "relative",
@@ -67,13 +67,13 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: "1.7rem",
     letterSpacing: "-0.01em",
     opacity: 0,
-    animation: "splashTextBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s forwards",
+    animation: "splashTextBounce 1.1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.9s forwards",
   },
   recycle: {
     color: "white",
     fontSize: "1.9rem",
     lineHeight: 1,
     opacity: 0,
-    animation: "splashFadeIn 0.5s ease 1s forwards",
+    animation: "splashFadeIn 0.9s ease 1.8s forwards",
   },
 };
