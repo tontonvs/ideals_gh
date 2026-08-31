@@ -3,14 +3,18 @@ import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import SearchOverlay from "./SearchOverlay";
 
-interface TopNavProps {
-  notificationCount?: number;
-}
+const NOTIFICATIONS = [
+  { id: "n1", text: "Your order IDG-40198 is out for delivery", time: "2h ago" },
+  { id: "n2", text: "Price drop: iPhone 17 Pro now GH₵13,500", time: "1d ago" },
+  { id: "n3", text: "New arrival: Honda Civic Sport (2023)", time: "3d ago" },
+];
 
-export default function TopNav({ notificationCount = 3 }: TopNavProps) {
+export default function TopNav() {
   const [profileOpen, setProfileOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const notifRef = useRef<HTMLDivElement>(null);
   const { itemCount } = useCart();
 
   useEffect(() => {
@@ -20,6 +24,12 @@ export default function TopNav({ notificationCount = 3 }: TopNavProps) {
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setProfileOpen(false);
+      }
+      if (
+        notifRef.current &&
+        !notifRef.current.contains(event.target as Node)
+      ) {
+        setNotifOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -48,12 +58,30 @@ export default function TopNav({ notificationCount = 3 }: TopNavProps) {
             {itemCount > 0 && <span style={styles.badge}>{itemCount}</span>}
           </Link>
 
-          <button aria-label="Notifications" style={styles.iconBtn}>
-            <BellIcon />
-            {notificationCount > 0 && (
-              <span style={styles.badge}>{notificationCount}</span>
+          <div ref={notifRef} style={{ position: "relative" }}>
+            <button
+              aria-label="Notifications"
+              style={styles.iconBtn}
+              onClick={() => setNotifOpen((v) => !v)}
+            >
+              <BellIcon />
+              {NOTIFICATIONS.length > 0 && (
+                <span style={styles.badge}>{NOTIFICATIONS.length}</span>
+              )}
+            </button>
+
+            {notifOpen && (
+              <div style={styles.notifDropdown}>
+                <p style={styles.notifHeading}>Notifications</p>
+                {NOTIFICATIONS.map((n) => (
+                  <div key={n.id} style={styles.notifItem}>
+                    <p style={styles.notifText}>{n.text}</p>
+                    <p style={styles.notifTime}>{n.time}</p>
+                  </div>
+                ))}
+              </div>
             )}
-          </button>
+          </div>
 
           <div ref={dropdownRef} style={{ position: "relative" }}>
             <button
@@ -275,5 +303,40 @@ const styles: Record<string, React.CSSProperties> = {
   },
   logoutItem: {
     color: "var(--color-accent-red)",
+  },
+  notifDropdown: {
+    position: "absolute",
+    top: "calc(100% + 10px)",
+    right: 0,
+    background: "white",
+    borderRadius: "var(--radius-md)",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.18)",
+    width: 260,
+    overflow: "hidden",
+    zIndex: 50,
+  },
+  notifHeading: {
+    margin: 0,
+    padding: "12px 16px 8px",
+    fontSize: "0.78rem",
+    fontWeight: 700,
+    color: "var(--color-text-muted)",
+    textTransform: "uppercase",
+    letterSpacing: "0.03em",
+  },
+  notifItem: {
+    padding: "10px 16px",
+    borderTop: "1px solid #F0EDE4",
+  },
+  notifText: {
+    margin: 0,
+    fontSize: "0.82rem",
+    color: "var(--color-text-dark)",
+    lineHeight: 1.4,
+  },
+  notifTime: {
+    margin: "3px 0 0",
+    fontSize: "0.68rem",
+    color: "var(--color-text-muted)",
   },
 };

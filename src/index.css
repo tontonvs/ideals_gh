@@ -82,6 +82,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  padding: 0 28px;
   position: fixed;
   bottom: 0;
   left: 50%;

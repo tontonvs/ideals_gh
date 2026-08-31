@@ -1,50 +1,79 @@
+import Footer from "../components/Footer";
+
 const WHATSAPP_NUMBER = "0261669206";
 const LOCATION = "Madina Zongo Junction, Opposite the Old Assembly";
 
 export default function Contact() {
   return (
-    <div style={styles.wrap}>
-      <h1 style={styles.heading}>Contact Us</h1>
-      <p style={styles.subheading}>
-        Reach out any time, most messages get a reply within the hour.
-      </p>
+    <div>
+      <div style={styles.wrap}>
+        <h1 style={styles.heading}>Contact Us</h1>
+        <p style={styles.subheading}>
+          Reach out any time, most messages get a reply within the hour.
+          Whether it's a question about a listing, a delivery update, or you
+          just want to negotiate a price, we're a message away.
+        </p>
 
-      <div style={styles.cardList}>
-        <a
-          href={`https://wa.me/233${WHATSAPP_NUMBER.slice(1)}`}
-          target="_blank"
-          rel="noreferrer"
-          style={styles.card}
-        >
-          <div style={styles.iconWrap}>
+        <div style={styles.rowList}>
+          <div style={styles.row}>
             <WhatsAppIcon />
+            <div>
+              <p style={styles.rowLabel}>WhatsApp</p>
+              <a
+                href={`https://wa.me/233${WHATSAPP_NUMBER.slice(1)}`}
+                target="_blank"
+                rel="noreferrer"
+                style={styles.rowValueLink}
+              >
+                {WHATSAPP_NUMBER}
+              </a>
+            </div>
           </div>
-          <div>
-            <p style={styles.cardLabel}>WhatsApp</p>
-            <p style={styles.cardValue}>{WHATSAPP_NUMBER}</p>
-          </div>
-        </a>
 
-        <a href={`tel:${WHATSAPP_NUMBER}`} style={styles.card}>
-          <div style={styles.iconWrap}>
+          <div style={styles.row}>
             <PhoneIcon />
+            <div>
+              <p style={styles.rowLabel}>Call</p>
+              <a href={`tel:${WHATSAPP_NUMBER}`} style={styles.rowValueLink}>
+                {WHATSAPP_NUMBER}
+              </a>
+            </div>
           </div>
-          <div>
-            <p style={styles.cardLabel}>Call</p>
-            <p style={styles.cardValue}>{WHATSAPP_NUMBER}</p>
-          </div>
-        </a>
 
-        <div style={styles.card}>
-          <div style={styles.iconWrap}>
+          <div style={styles.row}>
             <PinIcon />
+            <div>
+              <p style={styles.rowLabel}>Location</p>
+              <p style={styles.rowValue}>{LOCATION}</p>
+            </div>
           </div>
-          <div>
-            <p style={styles.cardLabel}>Location</p>
-            <p style={styles.cardValue}>{LOCATION}</p>
+
+          <div style={styles.row}>
+            <ClockIcon />
+            <div>
+              <p style={styles.rowLabel}>Hours</p>
+              <p style={styles.rowValue}>Mon – Sat, 9:00 AM – 7:00 PM</p>
+            </div>
+          </div>
+
+          <div style={styles.row}>
+            <InstagramIcon />
+            <div>
+              <p style={styles.rowLabel}>Instagram</p>
+              <a
+                href="https://instagram.com/ideals_gh"
+                target="_blank"
+                rel="noreferrer"
+                style={styles.rowValueLink}
+              >
+                @ideals_gh
+              </a>
+            </div>
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
@@ -96,6 +125,31 @@ function PinIcon() {
   );
 }
 
+function ClockIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="8.5" stroke="var(--color-navy)" strokeWidth="2" />
+      <path
+        d="M12 7.5V12l3 2"
+        stroke="var(--color-navy)"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="3" width="18" height="18" rx="5" stroke="var(--color-navy)" strokeWidth="2" />
+      <circle cx="12" cy="12" r="4" stroke="var(--color-navy)" strokeWidth="2" />
+      <circle cx="17.2" cy="6.8" r="1.1" fill="var(--color-navy)" />
+    </svg>
+  );
+}
+
 const styles: Record<string, React.CSSProperties> = {
   wrap: {
     padding: "20px 16px 32px",
@@ -108,43 +162,38 @@ const styles: Record<string, React.CSSProperties> = {
     color: "var(--color-text-dark)",
   },
   subheading: {
-    margin: "4px 0 20px",
-    fontSize: "0.85rem",
+    margin: "6px 0 22px",
+    fontSize: "0.84rem",
+    lineHeight: 1.6,
     color: "var(--color-text-muted)",
   },
-  cardList: {
+  rowList: {
     display: "flex",
     flexDirection: "column",
-    gap: 12,
   },
-  card: {
+  row: {
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     gap: 14,
-    background: "var(--color-card)",
-    border: "1px solid #E7E1D3",
-    borderRadius: "var(--radius-sm)",
-    padding: "14px 16px",
+    padding: "14px 0",
+    borderBottom: "1px solid #EFEAE0",
   },
-  iconWrap: {
-    width: 40,
-    height: 40,
-    borderRadius: "50%",
-    background: "#E9F0F4",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    flexShrink: 0,
-  },
-  cardLabel: {
+  rowLabel: {
     margin: 0,
     fontSize: "0.7rem",
     color: "var(--color-text-muted)",
   },
-  cardValue: {
+  rowValue: {
     margin: "2px 0 0",
-    fontSize: "0.9rem",
+    fontSize: "0.88rem",
     fontWeight: 600,
     color: "var(--color-text-dark)",
+  },
+  rowValueLink: {
+    display: "block",
+    marginTop: 2,
+    fontSize: "0.88rem",
+    fontWeight: 600,
+    color: "var(--color-navy)",
   },
 };

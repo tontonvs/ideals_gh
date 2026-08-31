@@ -1,18 +1,31 @@
 import { createContext, useContext, useState, useMemo } from "react";
 import type { ReactNode } from "react";
 import type { Product, CartItem } from "../types";
+import { products } from "../data/products";
 
 interface CartContextValue {
   items: CartItem[];
   addToCart: (product: Product, variantId?: string) => void;
+  removeFromCart: (productId: string, variantId?: string) => void;
+  updateQuantity: (productId: string, variantId: string | undefined, quantity: number) => void;
   itemCount: number;
   total: number;
 }
 
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 
+// Demo cart starts pre-populated so the checkout flow has something to
+// show right away: a phone, a watch, and a laptop.
+function buildInitialCart(): CartItem[] {
+  const ids = ["iphone-17-pro", "apple-watch-ultra-1", "hp-elitebook-840-g6"];
+  return ids
+    .map((id) => products.find((p) => p.id === id))
+    .filter((p): p is Product => Boolean(p))
+    .map((product) => ({ product, quantity: 1 }));
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(buildInitialCart);
 
   function addToCart(product: Product, variantId?: string) {
     setItems((prev) => {
@@ -30,6 +43,32 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       return [...prev, { product, variantId, quantity: 1 }];
     });
+  }
+
+  function removeFromCart(productId: string, variantId?: string) {
+    setItems((prev) =>
+      prev.filter(
+        (item) => !(item.product.id === productId && item.variantId === variantId)
+      )
+    );
+  }
+
+  function updateQuantity(
+    productId: string,
+    variantId: string | undefined,
+    quantity: number
+  ) {
+    if (quantity < 1) {
+      removeFromCart(productId, variantId);
+      return;
+    }
+    setItems((prev) =>
+      prev.map((item) =>
+        item.product.id === productId && item.variantId === variantId
+          ? { ...item, quantity }
+          : item
+      )
+    );
   }
 
   const itemCount = useMemo(
@@ -50,7 +89,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   return (
-    <CartContext.Provider value={{ items, addToCart, itemCount, total }}>
+    <CartContext.Provider
+      value={{
+        items,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        itemCount,
+        total,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

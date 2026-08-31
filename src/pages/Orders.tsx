@@ -1,11 +1,38 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { products } from "../data/products";
+import { formatPrice } from "../components/ProductCard";
 
 type OrdersTab = "orders" | "vehicles";
+
+interface MockOrder {
+  id: string;
+  productId: string;
+  status: string;
+  date: string;
+}
+
+const MOCK_ORDERS: MockOrder[] = [
+  { id: "IDG-40213", productId: "iphone-17-pro", status: "Delivered", date: "Aug 12" },
+  { id: "IDG-40198", productId: "apple-watch-ultra-1", status: "Out for delivery", date: "Aug 20" },
+  { id: "IDG-40166", productId: "hp-elitebook-840-g6", status: "Processing", date: "Aug 27" },
+];
+
+const MOCK_VEHICLES: MockOrder[] = [
+  { id: "IDG-30071", productId: "honda-civic-sport-2023", status: "Pickup scheduled", date: "Aug 25" },
+];
 
 export default function Orders() {
   const [tab, setTab] = useState<OrdersTab>("orders");
   const [query, setQuery] = useState("");
+
+  const list = tab === "orders" ? MOCK_ORDERS : MOCK_VEHICLES;
+  const items = list
+    .map((order) => {
+      const product = products.find((p) => p.id === order.productId);
+      return product ? { order, product } : null;
+    })
+    .filter((x): x is { order: MockOrder; product: (typeof products)[number] } => Boolean(x));
 
   return (
     <div style={styles.wrap}>
@@ -50,16 +77,45 @@ export default function Orders() {
         </button>
       </div>
 
-      <div style={styles.emptyState}>
-        <p style={styles.emptyTitle}>No {tab === "orders" ? "orders" : "vehicles"} yet</p>
-        <p style={styles.emptyText}>
-          Your {tab === "orders" ? "orders and shipments" : "vehicle purchases"} will
-          appear here.
-        </p>
-        <Link to="/shop" style={styles.startBtn}>
-          Start Shopping
-        </Link>
-      </div>
+      {items.length === 0 ? (
+        <div style={styles.emptyState}>
+          <p style={styles.emptyTitle}>No {tab === "orders" ? "orders" : "vehicles"} yet</p>
+          <p style={styles.emptyText}>
+            Your {tab === "orders" ? "orders and shipments" : "vehicle purchases"} will
+            appear here.
+          </p>
+          <Link to="/shop" style={styles.startBtn}>
+            Start Shopping
+          </Link>
+        </div>
+      ) : (
+        <div style={styles.orderList}>
+          {items.map(({ order, product }) => (
+            <div key={order.id} style={styles.orderCard}>
+              <div style={styles.orderImageWrap}>
+                {product.images[0] ? (
+                  <img
+                    src={product.images[0]}
+                    alt={product.name}
+                    style={styles.orderImage}
+                  />
+                ) : (
+                  <div style={styles.orderImagePlaceholder} />
+                )}
+              </div>
+              <div style={styles.orderBody}>
+                <p style={styles.orderName}>{product.name}</p>
+                <p style={styles.orderId}>{order.id}</p>
+                <div style={styles.orderFoot}>
+                  <span style={styles.orderStatus}>{order.status}</span>
+                  <span style={styles.orderDate}>{order.date}</span>
+                </div>
+              </div>
+              <span style={styles.orderPrice}>{formatPrice(product.price)}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -134,7 +190,7 @@ const styles: Record<string, React.CSSProperties> = {
   searchRow: {
     display: "flex",
     gap: 8,
-    marginBottom: 28,
+    marginBottom: 22,
   },
   searchInputWrap: {
     flex: 1,
@@ -197,5 +253,62 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: "0.88rem",
     padding: "12px 28px",
     borderRadius: "var(--radius-sm)",
+  },
+  orderList: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 12,
+  },
+  orderCard: {
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    background: "var(--color-card)",
+    border: "1px solid #E7E1D3",
+    borderRadius: "var(--radius-sm)",
+    padding: 10,
+  },
+  orderImageWrap: {
+    width: 56,
+    height: 56,
+    borderRadius: "var(--radius-sm)",
+    overflow: "hidden",
+    background: "#F1EEE6",
+    flexShrink: 0,
+  },
+  orderImage: { width: "100%", height: "100%", objectFit: "cover" },
+  orderImagePlaceholder: { width: "100%", height: "100%" },
+  orderBody: { flex: 1, minWidth: 0 },
+  orderName: {
+    margin: 0,
+    fontSize: "0.82rem",
+    fontWeight: 600,
+    color: "#10202B",
+    lineHeight: 1.3,
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  },
+  orderId: {
+    margin: "2px 0 4px",
+    fontSize: "0.68rem",
+    color: "var(--color-text-muted)",
+  },
+  orderFoot: { display: "flex", gap: 8, alignItems: "center" },
+  orderStatus: {
+    fontSize: "0.68rem",
+    fontWeight: 600,
+    color: "var(--color-navy)",
+    background: "#E9F0F4",
+    padding: "2px 8px",
+    borderRadius: "999px",
+  },
+  orderDate: { fontSize: "0.68rem", color: "var(--color-text-muted)" },
+  orderPrice: {
+    fontFamily: "var(--font-display)",
+    fontWeight: 700,
+    fontSize: "0.82rem",
+    color: "#10202B",
+    flexShrink: 0,
   },
 };
