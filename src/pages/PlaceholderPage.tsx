@@ -4,7 +4,7 @@ interface PlaceholderPageProps {
   title: string;
 }
 
-const SKELETON_DURATION_MS = 1400;
+const SKELETON_DURATION_MS = 2000;
 
 export default function PlaceholderPage({ title }: PlaceholderPageProps) {
   const [loading, setLoading] = useState(true);

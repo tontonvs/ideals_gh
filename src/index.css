@@ -3,7 +3,7 @@
 :root {
   --color-navy: #0E2A3D;
   --color-navy-dark: #0A1F2E;
-  --color-bg: #F6F3EC;
+  --color-bg: #F9F9F9;
   --color-card: #FFFFFF;
   --color-text-dark: #10202B;
   --color-text-muted: #5B6B74;
@@ -67,6 +67,42 @@ button {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+@keyframes splashCircleExpand {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(70);
+  }
+}
+
+@keyframes splashTextBounce {
+  0% {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(4px);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes splashFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .product-grid {

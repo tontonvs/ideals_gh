@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TopNav from "./components/TopNav";
 import BottomNav from "./components/BottomNav";
 import ProductDetailOverlay from "./components/ProductDetailOverlay";
 import ScrollToTop from "./components/ScrollToTop";
+import SplashScreen from "./components/SplashScreen";
+import PageLoadWrapper from "./components/PageLoadWrapper";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Orders from "./pages/Orders";
@@ -13,6 +16,8 @@ import { CartProvider } from "./context/CartContext";
 import { ProductOverlayProvider } from "./context/ProductOverlayContext";
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
   return (
     <CartProvider>
       <ProductOverlayProvider>
@@ -22,11 +27,46 @@ export default function App() {
             <TopNav />
             <div className="page-content">
               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/shop" element={<Shop />} />
-                <Route path="/orders" element={<Orders />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/cart" element={<Cart />} />
+                <Route
+                  path="/"
+                  element={
+                    <PageLoadWrapper>
+                      <Home />
+                    </PageLoadWrapper>
+                  }
+                />
+                <Route
+                  path="/shop"
+                  element={
+                    <PageLoadWrapper>
+                      <Shop />
+                    </PageLoadWrapper>
+                  }
+                />
+                <Route
+                  path="/orders"
+                  element={
+                    <PageLoadWrapper>
+                      <Orders />
+                    </PageLoadWrapper>
+                  }
+                />
+                <Route
+                  path="/contact"
+                  element={
+                    <PageLoadWrapper>
+                      <Contact />
+                    </PageLoadWrapper>
+                  }
+                />
+                <Route
+                  path="/cart"
+                  element={
+                    <PageLoadWrapper>
+                      <Cart />
+                    </PageLoadWrapper>
+                  }
+                />
                 <Route
                   path="/profile"
                   element={<PlaceholderPage title="Profile" />}
@@ -38,6 +78,7 @@ export default function App() {
           <ProductDetailOverlay />
         </BrowserRouter>
       </ProductOverlayProvider>
+      {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
     </CartProvider>
   );
 }
