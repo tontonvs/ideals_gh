@@ -25,12 +25,49 @@ export default function Cart() {
   const [note, setNote] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [orderCode, setOrderCode] = useState("");
+  const [payError, setPayError] = useState("");
+  const [paying, setPaying] = useState(false);
 
   const grandTotal = total;
 
   function handlePlaceOrder() {
-    setOrderCode(randomOrderCode());
-    setConfirmed(true);
+    if (!window.PaystackPop) {
+      setPayError("Payment is still loading, please try again in a moment.");
+      return;
+    }
+
+    setPayError("");
+    setPaying(true);
+
+    const handler = window.PaystackPop.setup({
+      key: PAYSTACK_PUBLIC_KEY_TEST,
+      email: email.trim() || "customer@idealsgh.com",
+      amount: Math.round(grandTotal * 100), // Paystack expects the smallest currency unit (pesewas)
+      currency: "GHS",
+      ref: randomOrderCode(),
+      metadata: {
+        full_name: fullName,
+        phone,
+        delivery_method: deliveryMethod,
+        address: deliveryMethod === "delivery" ? address : "Pickup at shop",
+      },
+      callback: (response) => {
+        // response.reference is the Paystack transaction reference. In
+        // production this should be sent to a server route (e.g. a
+        // Cloudflare Worker) that calls Paystack's
+        // GET /transaction/verify/:reference with the SECRET key to
+        // confirm the charge actually succeeded before marking the order
+        // as paid. This demo trusts the client-side callback only.
+        setPaying(false);
+        setOrderCode(response.reference);
+        setConfirmed(true);
+      },
+      onClose: () => {
+        setPaying(false);
+      },
+    });
+
+    handler.openIframe();
   }
 
   if (items.length === 0 && step === "cart") {
@@ -274,10 +311,19 @@ export default function Cart() {
             <p style={styles.payAmountLabel}>Amount to pay</p>
             <p style={styles.payAmountValue}>{formatPrice(grandTotal)}</p>
             <p style={styles.payNote}>
-              Test mode — no real charge will be made.
+              Test mode — use Paystack's test card 4084 0840 8408 4081, any
+              future expiry, any CVV.
             </p>
-            <button style={styles.paystackBtn} onClick={handlePlaceOrder}>
-              Pay with Paystack
+            {payError && <p style={styles.payErrorText}>{payError}</p>}
+            <button
+              style={{
+                ...styles.paystackBtn,
+                ...(paying ? styles.paystackBtnDisabled : {}),
+              }}
+              onClick={handlePlaceOrder}
+              disabled={paying}
+            >
+              {paying ? "Opening Paystack…" : "Pay with Paystack"}
             </button>
           </div>
 
@@ -571,6 +617,12 @@ const styles: Record<string, React.CSSProperties> = {
     textAlign: "center",
   },
   payNote: { margin: "0 0 16px", fontSize: "0.7rem", color: "var(--color-text-muted)", textAlign: "center" },
+  payErrorText: {
+    margin: "0 0 12px",
+    fontSize: "0.75rem",
+    color: "var(--color-accent-red)",
+    textAlign: "center",
+  },
   paystackBtn: {
     display: "block",
     width: "100%",
@@ -581,6 +633,9 @@ const styles: Record<string, React.CSSProperties> = {
     padding: "13px 0",
     fontSize: "0.9rem",
     fontWeight: 700,
+  },
+  paystackBtnDisabled: {
+    opacity: 0.6,
   },
   modalBackdrop: {
     position: "fixed",
@@ -637,7 +692,3 @@ const styles: Record<string, React.CSSProperties> = {
     textDecoration: "underline",
   },
 };
-
-// Referenced so the test public key stays wired up for when the Paystack
-// Inline script is added; not used for an actual charge in this demo.
-void PAYSTACK_PUBLIC_KEY_TEST;
